@@ -39,6 +39,12 @@
     <ClCompile Include="Unit.cpp">
       <Filter>SocialComputer</Filter>
     </ClCompile>
+    <ClCompile Include="DrawableWorld.cpp">
+      <Filter>SocialComputer</Filter>
+    </ClCompile>
+    <ClCompile Include="Gene.cpp">
+      <Filter>SocialComputer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainScene.h">
@@ -54,6 +60,12 @@
       <Filter>SocialComputer</Filter>
     </ClInclude>
     <ClInclude Include="Unit.h">
+      <Filter>SocialComputer</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableWorld.h">
+      <Filter>SocialComputer</Filter>
+    </ClInclude>
+    <ClInclude Include="Gene.h">
       <Filter>SocialComputer</Filter>
     </ClInclude>
   </ItemGroup>

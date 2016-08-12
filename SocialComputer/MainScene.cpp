@@ -1,11 +1,12 @@
 #include "MainScene.h"
 
-#include "World.h"
+#include "DrawableWorld.h"
 
 
 
 
 MainScene::MainScene()
+	: m_world(std::make_shared<DrawableWorld>())
 {
 
 }
@@ -35,6 +36,8 @@ void MainScene::onInitialize(caDraw::Window& owner)
 
 
 	m_world->initialize(32);
+
+	m_panel->addDrawable(m_world);
 }
 
 

@@ -1,11 +1,15 @@
 #pragma once
 
 
+#include <memory>
 #include <vector>
 
 #include <CodeAdapter\EasyCA.h>
 
 
+
+
+class Gene;
 
 
 class Unit
@@ -15,13 +19,25 @@ private:
 
 
 public:
-	Unit();
+	explicit Unit(const Gene& gene);
 	virtual ~Unit();
 
 
 protected:
+	const double ENERGY_PER_MEMORY;
+
+
+protected:
+	double m_energy;
 	VectorF m_position;
 	VectorF m_speed;
+	float m_radius;
+	VectorF m_direction;
+	float m_angle;
+
+
+protected:
+	std::unique_ptr<Gene> m_gene;
 
 
 public:
@@ -35,5 +51,8 @@ public:
 	const VectorF& getSpeed() const;
 	void setSpeed(const VectorF& speed);
 	void addSpeed(const VectorF& accelerate);
+	float getRadius() const;
+	const VectorF& getDirection() const;
+	float getAngle() const;
 };
 

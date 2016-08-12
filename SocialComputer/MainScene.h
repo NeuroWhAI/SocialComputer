@@ -8,7 +8,7 @@
 
 
 
-class World;
+class DrawableWorld;
 
 
 class MainScene : public caUtil::Scene
@@ -24,7 +24,7 @@ protected:
 
 
 protected:
-	std::unique_ptr<World> m_world;
+	std::shared_ptr<DrawableWorld> m_world;
 
 
 public:
