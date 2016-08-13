@@ -12,7 +12,7 @@ int main()
 
 
 	auto window = caFactory->createWindow();
-	window->create(caDraw::Size(1024, 768), caUtil::String("Social Computer"));
+	window->create(caDraw::Size(1280, 960), caUtil::String("Social Computer"));
 	window->disableFramerate();
 
 

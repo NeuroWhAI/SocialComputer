@@ -45,6 +45,15 @@
     <ClCompile Include="Gene.cpp">
       <Filter>SocialComputer</Filter>
     </ClCompile>
+    <ClCompile Include="Processor.cpp">
+      <Filter>SocialComputer</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>SocialComputer</Filter>
+    </ClCompile>
+    <ClCompile Include="Linker.cpp">
+      <Filter>SocialComputer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainScene.h">
@@ -66,6 +75,15 @@
       <Filter>SocialComputer</Filter>
     </ClInclude>
     <ClInclude Include="Gene.h">
+      <Filter>SocialComputer</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor.h">
+      <Filter>SocialComputer</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>SocialComputer</Filter>
+    </ClInclude>
+    <ClInclude Include="Linker.h">
       <Filter>SocialComputer</Filter>
     </ClInclude>
   </ItemGroup>

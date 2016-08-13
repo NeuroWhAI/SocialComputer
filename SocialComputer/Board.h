@@ -11,6 +11,7 @@
 
 class Tile;
 class Unit;
+class Linker;
 
 
 class Board
@@ -44,5 +45,7 @@ public:
 public:
 	void addUnit(Unit* unit);
 	void removeUnit(const Unit* unit);
+	void addLinker(Linker* linker);
+	void removeLinker(const Linker* linker);
 };
 

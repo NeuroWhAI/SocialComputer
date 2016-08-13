@@ -10,11 +10,15 @@
 class Gene
 {
 public:
+	static const char CMD_COUNT = 13;
+
+
+public:
 	Gene();
+	Gene(const std::initializer_list<char>& list);
 
 
 protected:
-	const char CMD_COUNT;
 	std::vector<char> m_code;
 
 

@@ -2,6 +2,7 @@
 
 #include "Tile.h"
 #include "Unit.h"
+#include "Linker.h"
 
 
 
@@ -138,6 +139,40 @@ void Board::removeUnit(const Unit* unit)
 	else
 	{
 		throw std::invalid_argument("Unit\'s position is not valid.");
+	}
+}
+
+
+void Board::addLinker(Linker* linker)
+{
+	const auto& position = linker->getPosition();
+	Vector index = static_cast<Vector>(position / m_tileSize);
+
+	if (index.x >= 0 && index.x < m_boardSize
+		&& index.y >= 0 && index.y < m_boardSize)
+	{
+		m_board[index.y][index.x]->addLinker(linker);
+	}
+	else
+	{
+		throw std::invalid_argument("Linker\'s position is not valid.");
+	}
+}
+
+
+void Board::removeLinker(const Linker* linker)
+{
+	const auto& position = linker->getPosition();
+	Vector index = static_cast<Vector>(position / m_tileSize);
+
+	if (index.x >= 0 && index.x < m_boardSize
+		&& index.y >= 0 && index.y < m_boardSize)
+	{
+		m_board[index.y][index.x]->removeLinker(linker);
+	}
+	else
+	{
+		throw std::invalid_argument("Linker\'s position is not valid.");
 	}
 }
 

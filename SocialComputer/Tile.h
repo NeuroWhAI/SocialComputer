@@ -10,6 +10,7 @@
 
 
 class Unit;
+class Linker;
 
 
 class Tile
@@ -31,6 +32,7 @@ protected:
 
 protected:
 	std::vector<Unit*> m_unitList;
+	std::vector<Linker*> m_linkerList;
 
 
 public:
@@ -42,9 +44,14 @@ public:
 	void linkTile(Tile* tile, size_t index);
 
 
+protected:
+	int checkOutTile(const VectorF& position);
+
+
 public:
 	void addUnit(Unit* unit);
 	void removeUnit(const Unit* unit);
-	bool hasUnit() const;
+	void addLinker(Linker* linker);
+	void removeLinker(const Linker* linker);
 };
 

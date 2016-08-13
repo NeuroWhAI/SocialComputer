@@ -2,6 +2,7 @@
 
 
 #include <memory>
+#include <chrono>
 
 #include <CodeAdapter\EasyCA.h>
 
@@ -13,6 +14,10 @@ class DrawableWorld;
 
 class MainScene : public caUtil::Scene
 {
+private:
+	using system_clock = std::chrono::system_clock;
+
+
 public:
 	MainScene();
 	virtual ~MainScene();
@@ -25,6 +30,10 @@ protected:
 
 protected:
 	std::shared_ptr<DrawableWorld> m_world;
+
+
+protected:
+	system_clock::time_point m_beginTime;
 
 
 public:

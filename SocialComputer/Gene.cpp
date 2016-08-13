@@ -6,9 +6,15 @@
 
 
 Gene::Gene()
-	: CMD_COUNT(13)
 {
 	
+}
+
+
+Gene::Gene(const std::initializer_list<char>& list)
+	: m_code(list)
+{
+
 }
 
 //###########################################################################

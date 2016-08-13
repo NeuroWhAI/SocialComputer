@@ -2,6 +2,7 @@
 
 #include "Board.h"
 #include "Unit.h"
+#include "Linker.h"
 
 
 
@@ -32,6 +33,21 @@ void DrawableWorld::onDraw(Graphics& g, const Transform& parentTransform)
 	rectArtist->drawRectangle(0.0f, 0.0f, boardSize, boardSize,
 		caDraw::Color::Gray);
 	rectArtist->endDrawRectangle();
+
+
+	lineArtist->beginDrawLine(2.0f);
+
+	for (auto& linker : m_linkerList)
+	{
+		auto& ownerPosition = linker->getOwner()->getPosition();
+		auto& linkerPosition = linker->getPosition();
+
+		lineArtist->drawLine(ownerPosition.x, ownerPosition.y,
+			linkerPosition.x, linkerPosition.y,
+			caDraw::Color(128, 112, 146, 190));
+	}
+
+	lineArtist->endDrawLine();
 
 
 	ellipseArtist->beginFillEllipse();
