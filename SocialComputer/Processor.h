@@ -63,6 +63,7 @@ protected:
 	bool jumpIfZero();
 	bool jumpIfNotZero();
 	bool getDirection();
+	bool move();
 	bool grow();
 	bool writeRegister();
 	bool readRegister();

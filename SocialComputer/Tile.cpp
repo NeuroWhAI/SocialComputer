@@ -86,7 +86,7 @@ void Tile::update()
 			{
 				pOutTile->addLinker(linker);
 
-				m_unitList.erase(m_unitList.begin() + l);
+				m_linkerList.erase(m_linkerList.begin() + l);
 				--l;
 				--linkerCount;
 			}

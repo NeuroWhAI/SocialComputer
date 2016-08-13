@@ -65,15 +65,9 @@ void Unit::updateState()
 	m_position += m_speed;
 
 
-	m_angle += m_angleSpeed;
+	setAngle(m_angle + m_angleSpeed);
 
 	m_angleSpeed = 0.0f;
-
-	// NOTE: Angle 클래스의 operator* 사용을 피하기 위해 float에 대입.
-	float angle = m_angle;
-	float toRad = 180.0f / F_PI;
-	m_direction.y = -std::sin(angle * toRad);
-	m_direction.x = std::cos(angle * toRad);
 }
 
 
@@ -192,6 +186,18 @@ auto Unit::getDirection() const -> const VectorF&
 float Unit::getAngle() const
 {
 	return m_angle;
+}
+
+
+void Unit::setAngle(float degree)
+{
+	m_angle = degree;
+
+	// NOTE: Angle 클래스의 operator* 사용을 피하기 위해 float에 대입.
+	float angle = m_angle;
+	float toRad = 180.0f / F_PI;
+	m_direction.y = -std::sin(angle * toRad);
+	m_direction.x = std::cos(angle * toRad);
 }
 
 

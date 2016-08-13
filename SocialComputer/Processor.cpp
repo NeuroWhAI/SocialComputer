@@ -24,19 +24,21 @@ Processor::Processor(Unit& owner,
 
 
 	// 명령어 셋 초기화
-	m_cmdSet[0] = &Processor::increasePtr;
-	m_cmdSet[1] = &Processor::decreasePtr;
-	m_cmdSet[2] = &Processor::increaseData;
-	m_cmdSet[3] = &Processor::decreaseData;
-	m_cmdSet[4] = &Processor::pushData;
-	m_cmdSet[5] = &Processor::pullData;
-	m_cmdSet[6] = &Processor::jumpIfZero;
-	m_cmdSet[7] = &Processor::jumpIfNotZero;
-	m_cmdSet[8] = &Processor::getDirection;
-	m_cmdSet[9] = &Processor::grow;
-	m_cmdSet[10] = &Processor::writeRegister;
-	m_cmdSet[11] = &Processor::readRegister;
-	m_cmdSet[12] = &Processor::getLength;
+	size_t cmd = 0;
+	m_cmdSet[cmd++] = &Processor::increasePtr;
+	m_cmdSet[cmd++] = &Processor::decreasePtr;
+	m_cmdSet[cmd++] = &Processor::increaseData;
+	m_cmdSet[cmd++] = &Processor::decreaseData;
+	m_cmdSet[cmd++] = &Processor::pushData;
+	m_cmdSet[cmd++] = &Processor::pullData;
+	m_cmdSet[cmd++] = &Processor::jumpIfZero;
+	m_cmdSet[cmd++] = &Processor::jumpIfNotZero;
+	m_cmdSet[cmd++] = &Processor::getDirection;
+	m_cmdSet[cmd++] = &Processor::move;
+	m_cmdSet[cmd++] = &Processor::grow;
+	m_cmdSet[cmd++] = &Processor::writeRegister;
+	m_cmdSet[cmd++] = &Processor::readRegister;
+	m_cmdSet[cmd++] = &Processor::getLength;
 }
 
 //###########################################################################
@@ -293,6 +295,21 @@ bool Processor::getDirection()
 }
 
 
+bool Processor::move()
+{
+	++m_head;
+
+	if (m_ptr < m_validMemSize)
+	{
+		float speed = static_cast<float>(m_memory[m_ptr].getData()) / Memory::MAX_DATA;
+		m_owner.addSpeed(m_owner.getDirection() * speed);
+	}
+
+
+	return true;
+}
+
+
 bool Processor::grow()
 {
 	++m_head;
@@ -300,9 +317,6 @@ bool Processor::grow()
 	if (m_ptr < m_validMemSize)
 	{
 		m_memory[m_ptr].reserve(&Memory::grow);
-
-		float speed = static_cast<float>(m_memory[m_ptr].getData()) / Memory::MAX_DATA;
-		m_owner.addSpeed(m_owner.getDirection() * speed);
 	}
 
 

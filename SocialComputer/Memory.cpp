@@ -106,18 +106,18 @@ void Memory::decrease()
 
 void Memory::push()
 {
-
+	m_linker->push(m_data);
 }
 
 
 void Memory::pull()
 {
-
+	m_data = m_linker->pull();
 }
 
 
 void Memory::grow()
 {
-
+	m_linker->grow(m_data);
 }
 

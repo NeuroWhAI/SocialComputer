@@ -29,9 +29,11 @@ World::~World()
 
 void World::initialize(int mapSize)
 {
-	m_board->initialize(mapSize, 64.0f);
+	m_board->initialize(mapSize, 128.0f);
 
 	
+	std::uniform_int_distribution<> degreeDist{ 0, 360 };
+
 	float tileSize = m_board->getTileSize();
 
 	for (float y = 0; y < mapSize; y += 1.0f)
@@ -43,6 +45,7 @@ void World::initialize(int mapSize)
 
 			auto unit = std::make_unique<Unit>(gene);
 			unit->setPosition({ x * tileSize, y * tileSize });
+			unit->setAngle(static_cast<float>(degreeDist(m_rand)));
 
 			addUnit(std::move(unit));
 		}
@@ -52,14 +55,14 @@ void World::initialize(int mapSize)
 
 void World::update()
 {
-	// 유닛 위치 갱신(속도 적용)
+	// 유닛 상태(위치, 속도, 방향 등) 갱신
 	for (auto& unit : m_unitList)
 	{
 		unit->updateState();
 	}
 
 
-	// 링커 위치 갱신
+	// 링커 위치, 속도 갱신
 	for (auto& linker : m_linkerList)
 	{
 		linker->update();
@@ -119,7 +122,7 @@ void World::removeUnitAt(size_t index)
 
 void World::addLinker(Linker* linker)
 {
-	m_board;
+	m_board->addLinker(linker);
 
 	m_linkerList.push_back(linker);
 }
@@ -127,7 +130,7 @@ void World::addLinker(Linker* linker)
 
 void World::removeLinkerAt(size_t index)
 {
-	m_board;
+	m_board->removeLinker(m_linkerList[index]);
 
 	m_linkerList.erase(m_linkerList.begin() + index);
 }

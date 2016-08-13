@@ -15,6 +15,8 @@ class DrawableWorld;
 class MainScene : public caUtil::Scene
 {
 private:
+	USING_CA_DRAWING(PointF);
+
 	using system_clock = std::chrono::system_clock;
 
 
@@ -29,6 +31,7 @@ protected:
 
 
 protected:
+	PointF m_camera;
 	std::shared_ptr<DrawableWorld> m_world;
 
 

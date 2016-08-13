@@ -72,6 +72,7 @@ public:
 	float getRadius() const;
 	const VectorF& getDirection() const;
 	float getAngle() const;
+	void setAngle(float degree);
 	void addAngleSpeed(float degreeSpeed);
 
 

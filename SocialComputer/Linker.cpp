@@ -118,3 +118,12 @@ Memory::DataType Linker::pull()
 	return m_connectedUnit->pullMemory(m_connectedIndex);
 }
 
+
+void Linker::grow(Memory::DataType data)
+{
+	if (m_owner != nullptr)
+	{
+		m_speed += m_owner->getDirection() * (static_cast<float>(data) / Memory::MAX_DATA);
+	}
+}
+

@@ -10,7 +10,7 @@
 class Gene
 {
 public:
-	static const char CMD_COUNT = 13;
+	static const char CMD_COUNT = 14;
 
 
 public:

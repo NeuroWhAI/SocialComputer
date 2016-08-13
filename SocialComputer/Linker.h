@@ -62,5 +62,6 @@ public:
 public:
 	void push(Memory::DataType data);
 	Memory::DataType pull();
+	void grow(Memory::DataType data);
 };
 
