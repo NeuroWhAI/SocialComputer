@@ -3,12 +3,15 @@
 #include "Tile.h"
 #include "Unit.h"
 #include "Linker.h"
+#include "Gene.h"
 
 
 
 
-Board::Board()
-	: m_boardSize(0)
+Board::Board(std::mt19937& randEngine)
+	: m_rand(randEngine)
+	
+	, m_boardSize(0)
 	, m_tileSize(1.0f)
 {
 
@@ -37,7 +40,7 @@ void Board::initialize(int boardSize, float tileSize)
 
 		for (auto& tile : horizon)
 		{
-			tile = std::make_unique<Tile>();
+			tile = std::make_unique<Tile>(m_rand);
 		}
 	}
 
@@ -90,6 +93,16 @@ void Board::update()
 		for (auto& tile : horizon)
 		{
 			tile->update();
+
+
+			// 새로 탄생한 유전자 목록에 저장.
+			auto& newUnitList = tile->getNewUnitList();
+			for (auto& unit : newUnitList)
+			{
+				m_newUnitList.emplace_back(std::move(unit));
+			}
+
+			tile->clearNewUnitList();
 		}
 	}
 }
@@ -111,18 +124,33 @@ float Board::getTileSize() const
 
 void Board::addUnit(Unit* unit)
 {
-	const auto& position = unit->getPosition();
+	auto position = unit->getPosition();
 	Vector index = static_cast<Vector>(position / m_tileSize);
 
-	if (index.x >= 0 && index.x < m_boardSize
-		&& index.y >= 0 && index.y < m_boardSize)
+	if (index.x < 0)
 	{
-		m_board[index.y][index.x]->addUnit(unit);
+		position.x = 0;
+		index.x = 0;
 	}
-	else
+	else if (index.x >= m_boardSize)
 	{
-		throw std::invalid_argument("Unit\'s position is not valid.");
+		position.x = m_boardSize * m_tileSize - 1;
+		index.x = m_boardSize - 1;
 	}
+
+	if (index.y < 0)
+	{
+		position.y = 0;
+		index.y = 0;
+	}
+	else if (index.y >= m_boardSize)
+	{
+		position.y = m_boardSize * m_tileSize - 1;
+		index.y = m_boardSize - 1;
+	}
+
+	unit->setPosition(position);
+	m_board[index.y][index.x]->addUnit(unit);
 }
 
 
@@ -145,18 +173,33 @@ void Board::removeUnit(const Unit* unit)
 
 void Board::addLinker(Linker* linker)
 {
-	const auto& position = linker->getPosition();
+	auto position = linker->getPosition();
 	Vector index = static_cast<Vector>(position / m_tileSize);
 
-	if (index.x >= 0 && index.x < m_boardSize
-		&& index.y >= 0 && index.y < m_boardSize)
+	if (index.x < 0)
 	{
-		m_board[index.y][index.x]->addLinker(linker);
+		position.x = 0;
+		index.x = 0;
 	}
-	else
+	else if (index.x >= m_boardSize)
 	{
-		throw std::invalid_argument("Linker\'s position is not valid.");
+		position.x = m_boardSize * m_tileSize - 1;
+		index.x = m_boardSize - 1;
 	}
+
+	if (index.y < 0)
+	{
+		position.y = 0;
+		index.y = 0;
+	}
+	else if (index.y >= m_boardSize)
+	{
+		position.y = m_boardSize * m_tileSize - 1;
+		index.y = m_boardSize - 1;
+	}
+
+	linker->setPosition(position);
+	m_board[index.y][index.x]->addLinker(linker);
 }
 
 
@@ -174,5 +217,18 @@ void Board::removeLinker(const Linker* linker)
 	{
 		throw std::invalid_argument("Linker\'s position is not valid.");
 	}
+}
+
+//###########################################################################
+
+std::vector<std::unique_ptr<Unit>>& Board::getNewUnitList()
+{
+	return m_newUnitList;
+}
+
+
+void Board::clearNewUnitList()
+{
+	m_newUnitList.clear();
 }
 

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <array>
+#include <random>
 
 #include <CodeAdapter\EasyCA.h>
 
@@ -20,8 +21,13 @@ private:
 
 
 public:
-	Tile();
+	explicit Tile(std::mt19937& randEngine);
 	virtual ~Tile();
+
+
+protected:
+	std::mt19937& m_rand;
+	std::uniform_int_distribution<> m_mutationDist;
 
 
 protected:
@@ -34,6 +40,10 @@ protected:
 	float m_maxSpeedSq;
 	std::vector<Unit*> m_unitList;
 	std::vector<Linker*> m_linkerList;
+
+
+protected:
+	std::vector<std::unique_ptr<Unit>> m_newUnitList;
 
 
 public:
@@ -54,5 +64,10 @@ public:
 	void removeUnit(const Unit* unit);
 	void addLinker(Linker* linker);
 	void removeLinker(const Linker* linker);
+
+
+public:
+	std::vector<std::unique_ptr<Unit>>& getNewUnitList();
+	void clearNewUnitList();
 };
 

@@ -79,6 +79,10 @@ public:
 
 
 public:
+	const Gene& getGene() const;
+
+
+public:
 	void pushMemory(size_t index, Memory::DataType data);
 	Memory::DataType pullMemory(size_t index);
 	size_t assignLinkerIndex(const Unit* user);

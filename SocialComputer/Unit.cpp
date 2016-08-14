@@ -214,6 +214,13 @@ void Unit::addAngleSpeed(float degreeSpeed)
 
 //###########################################################################
 
+const Gene& Unit::getGene() const
+{
+	return *m_gene;
+}
+
+//###########################################################################
+
 void Unit::pushMemory(size_t index, Memory::DataType data)
 {
 	if (index < m_validMemSize)

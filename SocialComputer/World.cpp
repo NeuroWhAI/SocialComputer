@@ -14,7 +14,7 @@
 World::World()
 	: m_rand(static_cast<unsigned int>(time(nullptr)))
 	
-	, m_board(std::make_unique<Board>())
+	, m_board(std::make_unique<Board>(m_rand))
 {
 
 }
@@ -56,6 +56,16 @@ void World::initialize(int mapSize)
 
 void World::update()
 {
+	// 새로 발생한 유전자로 유닛 생성
+	auto& newUnitList = m_board->getNewUnitList();
+	for (auto& unit : newUnitList)
+	{
+		addUnit(std::move(unit));
+	}
+
+	m_board->clearNewUnitList();
+
+
 	// 유닛 상태(위치, 속도, 방향 등) 갱신
 	for (auto& unit : m_unitList)
 	{

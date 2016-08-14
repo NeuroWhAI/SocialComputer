@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "Unit.h"
+
 
 
 
@@ -42,6 +44,12 @@ void Gene::initializeRandomly(std::mt19937& engine)
 const std::vector<char>& Gene::getCode() const
 {
 	return m_code;
+}
+
+
+double Gene::getEnergy() const
+{
+	return Unit::ENERGY_PER_MEMORY * m_code.size();
 }
 
 //###########################################################################

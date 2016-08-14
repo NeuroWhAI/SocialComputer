@@ -2,12 +2,16 @@
 
 #include "Unit.h"
 #include "Linker.h"
+#include "Gene.h"
 
 
 
 
-Tile::Tile()
-	: m_position(VectorF::Zero)
+Tile::Tile(std::mt19937& randEngine)
+	: m_rand(randEngine)
+	, m_mutationDist(0, 32)
+	
+	, m_position(VectorF::Zero)
 	, m_tileSize(1.0f)
 
 	, m_maxSpeedSq(1.0f)
@@ -28,7 +32,7 @@ void Tile::initialize(const VectorF& position, float tileSize)
 	m_position = position;
 	m_tileSize = tileSize;
 
-	m_maxSpeedSq = tileSize / 2;
+	m_maxSpeedSq = tileSize / 32.0f;
 	m_maxSpeedSq *= m_maxSpeedSq;
 }
 
@@ -67,7 +71,8 @@ void Tile::update()
 					continue;
 
 
-				auto subVec = otherUnit->getPosition() - position;
+				const auto& otherPosition = otherUnit->getPosition();
+				auto subVec = otherPosition - position;
 				const float minDistance = otherUnit->getRadius() + radius;
 
 				const float distanceSq = subVec.getLengthSq();
@@ -90,6 +95,43 @@ void Tile::update()
 
 						if (unit->getSpeed().getLengthSq() > m_maxSpeedSq)
 							unit->addSpeed(pushVec);
+					}
+
+					// 서로 마주보는 상태이면
+					const float dirDot = unit->getDirection().dotProduct(otherUnit->getDirection());
+					if (dirDot < -0.9f)
+					{
+						auto& gene = unit->getGene();
+						auto& otherGene = otherUnit->getGene();
+
+						const double useEnergy = gene.getEnergy() / 2;
+						const double otherUseEnergy = otherGene.getEnergy() / 2;
+
+						// 에너지가 충분하면
+						if (unit->getEnergy() > useEnergy
+							&& otherUnit->getEnergy() > otherUseEnergy)
+						{
+							// 에너지 소모
+							unit->addEnergy(-useEnergy);
+							otherUnit->addEnergy(-otherUseEnergy);
+
+							// 교배
+							Gene childGene = gene;
+							childGene.combine(otherGene, m_rand);
+
+							// 돌연변이
+							if (m_mutationDist(m_rand) == 0)
+							{
+								childGene.mutate(m_rand);
+							}
+
+							auto childUnit = std::make_unique<Unit>(childGene);
+							childUnit->setPosition(position + unit->getDirection() * (unit->getRadius() * 2));
+							childUnit->setAngle(unit->getAngle() + 90.0f);
+
+							// 월드로 내보낼 목록에 추가
+							m_newUnitList.emplace_back(std::move(childUnit));
+						}
 					}
 				}
 			}
@@ -315,5 +357,18 @@ void Tile::removeLinker(const Linker* linker)
 
 
 	throw std::invalid_argument("No matching linker.");
+}
+
+//###########################################################################
+
+std::vector<std::unique_ptr<Unit>>& Tile::getNewUnitList()
+{
+	return m_newUnitList;
+}
+
+
+void Tile::clearNewUnitList()
+{
+	m_newUnitList.clear();
 }
 

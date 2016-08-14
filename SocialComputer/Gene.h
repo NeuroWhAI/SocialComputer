@@ -28,6 +28,7 @@ public:
 
 public:
 	const std::vector<char>& getCode() const;
+	double getEnergy() const;
 
 
 public:

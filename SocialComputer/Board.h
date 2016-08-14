@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <random>
 
 #include <CodeAdapter\EasyCA.h>
 
@@ -22,14 +23,22 @@ private:
 
 
 public:
-	Board();
+	explicit Board(std::mt19937& randEngine);
 	virtual ~Board();
+
+
+protected:
+	std::mt19937& m_rand;
 
 
 protected:
 	int m_boardSize;
 	float m_tileSize;
 	std::vector<std::vector<std::unique_ptr<Tile>>> m_board;
+
+
+protected:
+	std::vector<std::unique_ptr<Unit>> m_newUnitList;
 
 
 public:
@@ -47,5 +56,10 @@ public:
 	void removeUnit(const Unit* unit);
 	void addLinker(Linker* linker);
 	void removeLinker(const Linker* linker);
+
+
+public:
+	std::vector<std::unique_ptr<Unit>>& getNewUnitList();
+	void clearNewUnitList();
 };
 
