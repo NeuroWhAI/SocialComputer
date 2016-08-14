@@ -31,6 +31,7 @@ protected:
 
 
 protected:
+	float m_maxSpeedSq;
 	std::vector<Unit*> m_unitList;
 	std::vector<Linker*> m_linkerList;
 

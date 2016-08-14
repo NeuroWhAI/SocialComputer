@@ -44,7 +44,7 @@ void DrawableWorld::onDraw(Graphics& g, const Transform& parentTransform)
 
 		lineArtist->drawLine(ownerPosition.x, ownerPosition.y,
 			linkerPosition.x, linkerPosition.y,
-			caDraw::Color(128, 112, 146, 190));
+			caDraw::Color(64, 112, 146, 190));
 	}
 
 	lineArtist->endDrawLine();
@@ -52,11 +52,21 @@ void DrawableWorld::onDraw(Graphics& g, const Transform& parentTransform)
 
 	ellipseArtist->beginFillEllipse();
 
+	/*for (auto& linker : m_linkerList)
+	{
+		auto& position = linker->getOwner()->getPosition();
+		float radius = 3.0f;
+
+		ellipseArtist->fillEllipse(position.x - radius,
+			position.y - radius,
+			radius * 2, radius * 2,
+			caDraw::Color(64, 163, 73, 164));
+	}*/
+
 	for (auto& unit : m_unitList)
 	{
 		const auto& position = unit->getPosition();
 		float radius = unit->getRadius();
-
 
 		ellipseArtist->fillEllipse(position.x - radius,
 			position.y - radius,

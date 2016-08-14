@@ -7,7 +7,7 @@
 
 MainScene::MainScene()
 	: m_camera(PointF::Zero)
-	, m_world(std::make_shared<DrawableWorld>())
+	, m_world(std::make_unique<DrawableWorld>())
 {
 
 }
@@ -55,6 +55,11 @@ void MainScene::onUpdate(caDraw::Window& owner)
 	{
 		reserveNextScene(nullptr);
 	}
+	else if (caKeyboard->isKeyDown(caSys::Keys::Return))
+	{
+		m_world = std::make_unique<DrawableWorld>();
+		m_world->initialize(6);
+	}
 	
 	if (caKeyboard->isKeyPressed(caSys::Keys::Up))
 	{
@@ -81,11 +86,14 @@ void MainScene::onUpdate(caDraw::Window& owner)
 
 void MainScene::onDrawBack(caDraw::Graphics& g)
 {
-	auto cam = m_panel->transform;
-	cam.position += m_camera;
+	if (caKeyboard->isKeyPressed(caSys::Keys::LShift))
+	{
+		auto cam = m_panel->transform;
+		cam.position += m_camera;
 
 
-	m_world->draw(g, cam);
+		m_world->draw(g, cam);
+	}
 }
 
 

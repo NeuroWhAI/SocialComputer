@@ -32,20 +32,21 @@ void World::initialize(int mapSize)
 	m_board->initialize(mapSize, 128.0f);
 
 	
-	std::uniform_int_distribution<> degreeDist{ 0, 360 };
+	std::uniform_int_distribution<> degreeDist{ 0, 7 };
 
 	float tileSize = m_board->getTileSize();
+	float totalMapSize = mapSize * tileSize;
 
-	for (float y = 0; y < mapSize; y += 1.0f)
+	for (float y = 0; y < totalMapSize; y += tileSize / 2.0f)
 	{
-		for (float x = 0; x < mapSize; x += 1.0f)
+		for (float x = 0; x < totalMapSize; x += tileSize / 2.0f)
 		{
 			Gene gene;
 			gene.initializeRandomly(m_rand);
 
 			auto unit = std::make_unique<Unit>(gene);
-			unit->setPosition({ x * tileSize, y * tileSize });
-			unit->setAngle(static_cast<float>(degreeDist(m_rand)));
+			unit->setPosition({ x, y });
+			unit->setAngle(static_cast<float>(45 * degreeDist(m_rand)));
 
 			addUnit(std::move(unit));
 		}

@@ -32,7 +32,7 @@ protected:
 
 protected:
 	PointF m_camera;
-	std::shared_ptr<DrawableWorld> m_world;
+	std::unique_ptr<DrawableWorld> m_world;
 
 
 protected:

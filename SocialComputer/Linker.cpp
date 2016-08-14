@@ -21,9 +21,20 @@ Linker::Linker()
 
 void Linker::update()
 {
-	m_speed -= m_speed / 256.0f;
+	if (m_connectedUnit == nullptr)
+	{
+		m_speed -= m_speed / 128.0f;
 
-	m_position += m_speed;
+		m_position += m_speed;
+	}
+	else
+	{
+		m_position = m_connectedUnit->getPosition();
+
+		m_connectedUnit->addSpeed(m_speed);
+
+		m_speed = VectorF::Zero;
+	}
 }
 
 //###########################################################################
@@ -71,7 +82,7 @@ const Unit* Linker::getOwner() const
 }
 
 
-void Linker::setOwner(const Unit* owner)
+void Linker::setOwner(Unit* owner)
 {
 	m_owner = owner;
 }
@@ -123,7 +134,9 @@ void Linker::grow(Memory::DataType data)
 {
 	if (m_owner != nullptr)
 	{
-		m_speed += m_owner->getDirection() * (static_cast<float>(data) / Memory::MAX_DATA);
+		const float rate = static_cast<float>(data) / Memory::MAX_DATA;
+
+		m_speed += m_owner->getDirection() * rate;
 	}
 }
 

@@ -27,7 +27,7 @@ protected:
 
 
 protected:
-	const Unit* m_owner;
+	Unit* m_owner;
 
 
 protected:
@@ -50,7 +50,7 @@ public:
 
 public:
 	const Unit* getOwner() const;
-	void setOwner(const Unit* owner);
+	void setOwner(Unit* owner);
 
 
 public:

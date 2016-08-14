@@ -60,7 +60,7 @@ Unit::~Unit()
 
 void Unit::updateState()
 {
-	m_speed -= m_speed / 256.0f;
+	m_speed -= m_speed / 128.0f;
 
 	m_position += m_speed;
 
@@ -73,7 +73,8 @@ void Unit::updateState()
 
 void Unit::updateProcessor()
 {
-	if (m_processor->isEnd() == false)
+	if (m_processor->isEnd() == false
+		&& m_energy > 0.0)
 	{
 		m_processor->update();
 	}
@@ -166,7 +167,12 @@ void Unit::addSpeed(const VectorF& accelerate)
 
 	for (auto& mem : m_memory)
 	{
-		mem.getLinker()->addSpeed(accelerate);
+		Linker* linker = mem.getLinker();
+
+		if (linker->hasConnection() == false)
+		{
+			linker->addSpeed(accelerate);
+		}
 	}
 }
 
@@ -233,8 +239,30 @@ Memory::DataType Unit::pullMemory(size_t index)
 	}
 	else
 	{
+		const Memory::DataType pullEnergy = 1;
+
+		addEnergy(-pullEnergy);
+
+
+		return pullEnergy;
+	}
+}
+
+
+size_t Unit::assignLinkerIndex(const Unit* user)
+{
+	auto it = m_linkerHub.find(user);
+
+	if (it == m_linkerHub.end())
+	{
+		m_linkerHub.insert(std::make_pair(user, 1));
+
+
 		return 0;
 	}
+	
+	
+	return it->second++;
 }
 
 //###########################################################################

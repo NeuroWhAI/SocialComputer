@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <unordered_map>
 
 #include <CodeAdapter\EasyCA.h>
 
@@ -52,6 +53,7 @@ protected:
 	std::vector<Memory> m_memory;
 	std::vector<Linker*> m_newLinkerList;
 	std::unique_ptr<Processor> m_processor;
+	std::unordered_map<const Unit*, size_t> m_linkerHub;
 
 
 public:
@@ -79,6 +81,7 @@ public:
 public:
 	void pushMemory(size_t index, Memory::DataType data);
 	Memory::DataType pullMemory(size_t index);
+	size_t assignLinkerIndex(const Unit* user);
 
 
 public:
